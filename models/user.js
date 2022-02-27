@@ -75,7 +75,7 @@ module.exports = sequelize => {
   User.associate = models => {
     User.hasMany(models.Course, {
       // establish m2m  relationship
-      as: 'courses', // alias
+      as: 'course', // alias
       foreignKey: {
         fieldName: 'userId',
         allowNull: false,
