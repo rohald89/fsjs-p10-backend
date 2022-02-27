@@ -1,17 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Course extends Model {
-    static associate(models) {
-      Course.belongsTo(models.User, {
-        as: 'user',
-        foreignKey: {
-          fieldName: 'userId',
-          allowNull: false,
-        },
-      });
-    }
-  }
+  class Course extends Model {}
 
   Course.init(
     {
@@ -54,5 +44,15 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
     }
   );
+  Course.associate = models => {
+    Course.belongsTo(models.User, {
+      // establish 1-1 relationship
+      as: 'user', // alias
+      foreignKey: {
+        fieldName: 'userId',
+        allowNull: false,
+      },
+    });
+  };
   return Course;
 };

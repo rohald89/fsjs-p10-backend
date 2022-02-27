@@ -3,17 +3,7 @@ const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      User.hasMany(models.Course, {
-        as: 'course',
-        foreignKey: {
-          fieldName: 'userId',
-          allowNull: false,
-        },
-      });
-    }
-  }
+  class User extends Model {}
 
   User.init(
     {
@@ -78,5 +68,15 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
     }
   );
+  User.associate = models => {
+    User.hasMany(models.Course, {
+      // establish m2m  relationship
+      as: 'user', // alias
+      foreignKey: {
+        fieldName: 'userId',
+        allowNull: false,
+      },
+    });
+  };
   return User;
 };
