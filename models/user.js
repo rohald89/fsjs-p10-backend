@@ -1,10 +1,12 @@
 'use strict';
-const { Model } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
-module.exports = (sequelize, DataTypes) => {
+/* 
+    Setup the User Model
+*/
+module.exports = sequelize => {
   class User extends Model {}
-
   User.init(
     {
       firstName: {
@@ -12,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: 'A first name is required',
+            msg: 'A firstName is required',
           },
           notEmpty: {
-            msg: 'Please provide a first name',
+            msg: 'Please provide a firstName',
           },
         },
       },
@@ -24,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: 'A last name is required',
+            msg: 'A lastName is required',
           },
           notEmpty: {
-            msg: 'Please provide a last name',
+            msg: 'Please provide a lastName',
           },
         },
       },
@@ -35,39 +37,41 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: {
-          msg: 'The email address you entered already exists',
+          msg: 'The email address already exists',
         },
         validate: {
-          isEmail: {
-            msg: 'Please enter a valid email',
-          },
           notNull: {
             msg: 'An email address is required',
+          },
+          notEmpty: {
+            msg: 'Please provide an email address',
+          },
+          isEmail: {
+            msg: 'Please provide a valid email address',
           },
         },
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+        set(val) {
+          // Go ahead and hash the password before its persisted
+          const hashedPass = bcrypt.hashSync(val, 10);
+          this.setDataValue('password', hashedPass);
+        },
         validate: {
           notNull: {
             msg: 'A password is required',
           },
-        },
-        set(val) {
-          if (val.length > 0) {
-            const hashedPassword = bcrypt.hashSync(val, 10);
-            this.setDataValue('password', hashedPassword);
-          } else {
-            return null;
-          }
+          notEmpty: {
+            msg: 'Please provide a password',
+          },
         },
       },
     },
-    {
-      sequelize,
-    }
+    { sequelize }
   );
+
   User.associate = models => {
     User.hasMany(models.Course, {
       // establish m2m  relationship
@@ -78,5 +82,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
   };
+
   return User;
 };
