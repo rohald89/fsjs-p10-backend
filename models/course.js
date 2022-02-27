@@ -40,7 +40,7 @@ module.exports = sequelize => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      user: {
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -55,7 +55,7 @@ module.exports = sequelize => {
   Course.associate = models => {
     Course.belongsTo(models.User, {
       // establish 1-1 relationship
-      as: 'userId', // alias
+      as: 'user', // alias
       foreignKey: {
         fieldName: 'userId',
         allowNull: false,
