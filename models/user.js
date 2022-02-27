@@ -69,7 +69,7 @@ module.exports = sequelize => {
         },
       },
     },
-    { sequelize }
+    { sequelize, modelName: 'User' }
   );
 
   User.associate = models => {

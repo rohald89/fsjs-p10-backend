@@ -49,7 +49,7 @@ module.exports = sequelize => {
         },
       },
     },
-    { sequelize }
+    { sequelize, modelName: 'Course' }
   );
 
   Course.associate = models => {
