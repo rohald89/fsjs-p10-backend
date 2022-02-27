@@ -44,7 +44,7 @@ module.exports = sequelize => {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id',
         },
       },
@@ -55,7 +55,7 @@ module.exports = sequelize => {
   Course.associate = models => {
     Course.belongsTo(models.User, {
       // establish 1-1 relationship
-      as: 'Users', // alias
+      as: 'users', // alias
       foreignKey: {
         fieldName: 'userId',
         allowNull: false,
