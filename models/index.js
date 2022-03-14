@@ -16,21 +16,6 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-// const sequelize = new Sequelize({
-//   database: process.env.POSTGRES_DB,
-//   username: process.env.POSTGRES_USER,
-//   password: process.env.POSTGRES_PASSWORD,
-//   host: process.env.POSTGRES_HOST,
-//   port: process.env.POSTGRES_PORT,
-//   dialect: 'postgres',
-//   // dialectOptions: {
-//   //   ssl: {
-//   //     require: true,
-//   //     rejectUnauthorized: false,
-//   //   },
-//   // },
-// });
-
 fs.readdirSync(__dirname)
   .filter(file => {
     return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
